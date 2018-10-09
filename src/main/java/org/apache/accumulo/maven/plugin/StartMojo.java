@@ -32,6 +32,8 @@ import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Goal which starts an instance of {@link MiniAccumuloCluster}.
  */
@@ -55,56 +57,42 @@ public class StartMojo extends AbstractAccumuloMojo {
       required = true)
   private int zooKeeperPort;
 
-  private String miniClasspath;
-
   static Set<MiniAccumuloClusterImpl> runningClusters = Collections
       .synchronizedSet(new HashSet<>());
 
+  @SuppressFBWarnings(value = "PATH_TRAVERSAL_IN",
+      justification = "could restrict outputDirectory to target/ in future")
   @Override
   public void execute() throws MojoExecutionException {
     if (shouldSkip()) {
       return;
     }
 
-    File subdir = new File(new File(outputDirectory, "accumulo-maven-plugin"), instanceName);
+    if (!instanceName.matches("^[a-zA-Z0-9_-]+$")) {
+      throw new MojoExecutionException("instanceName must be only letters and numbers");
+    }
 
+    File subdir = new File(new File(outputDirectory, "accumulo-maven-plugin"), instanceName);
     try {
       subdir = subdir.getCanonicalFile();
       if (subdir.exists())
         FileUtils.forceDelete(subdir);
       if (!subdir.mkdirs() && !subdir.isDirectory())
-        throw new IOException(subdir + " cannot be created as a directory");
+        throw new MojoExecutionException(subdir + " cannot be created as a directory");
       MiniAccumuloConfigImpl cfg = new MiniAccumuloConfigImpl(subdir, rootPassword);
       cfg.setInstanceName(instanceName);
       cfg.setZooKeeperPort(zooKeeperPort);
-      configureMiniClasspath(cfg, miniClasspath);
+      configureMiniClasspath(cfg, null);
       MiniAccumuloClusterImpl mac = new MiniAccumuloClusterImpl(cfg);
       getLog().info("Starting MiniAccumuloCluster: " + mac.getInstanceName() + " in "
           + mac.getConfig().getDir());
       mac.start();
       runningClusters.add(mac);
-    } catch (Exception e) {
+    } catch (IOException | InterruptedException e) {
       throw new MojoExecutionException(
           "Unable to start " + MiniAccumuloCluster.class.getSimpleName(), e);
     }
 
   }
 
-  public static void main(String[] args) throws MojoExecutionException {
-    int a = 0;
-    for (String arg : args) {
-      if (a < 2) {
-        // skip the first two args
-        a++;
-        continue;
-      }
-      StartMojo starter = new StartMojo();
-      starter.outputDirectory = new File(args[0]);
-      String[] instArgs = arg.split(" ");
-      starter.instanceName = instArgs[0];
-      starter.rootPassword = instArgs[1];
-      starter.miniClasspath = args[1];
-      starter.execute();
-    }
-  }
 }

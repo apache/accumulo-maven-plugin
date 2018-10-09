@@ -15,15 +15,10 @@
   limitations under the License.
 -->
 <FindBugsFilter>
-    <Match>
-        <!-- new file on user input can be dangerous but OK here -->
-        <Class name="org.apache.accumulo.maven.plugin.StartMojo"/>
-        <Bug code="PATH" pattern="PATH_TRAVERSAL_IN"/>
-    </Match>
-    <Match>
-        <!-- dangerous on untrusted files but OK here -->
-        <Class name="org.apache.accumulo.maven.plugin.HelpMojo"/>
-        <Method name="build" params="" returns="org.w3c.dom.Document"/>
-        <Bug code="XXE" pattern="XXE_DOCUMENT"/>
-    </Match>
+  <Match>
+    <!-- dangerous on untrusted files but okay on generated file -->
+    <Class name="org.apache.accumulo.maven.plugin.HelpMojo"/>
+    <Method name="build" params="" returns="org.w3c.dom.Document"/>
+    <Bug code="XXE" pattern="XXE_DOCUMENT"/>
+  </Match>
 </FindBugsFilter>
