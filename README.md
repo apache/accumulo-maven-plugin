@@ -26,6 +26,7 @@ See the [plugin documentation][plugin-docs] for more details.
 
 [accumulo]: https://accumulo.apache.org
 [Maven]: https://maven.apache.org
+[plugin-docs]: https://accumulo.apache.org/accumulo-maven-plugin
 [li]: https://img.shields.io/badge/license-ASL-blue.svg
 [ll]: https://www.apache.org/licenses/LICENSE-2.0
 [mi]: https://maven-badges.herokuapp.com/maven-central/org.apache.accumulo/accumulo-maven-plugin/badge.svg
