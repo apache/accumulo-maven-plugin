@@ -18,60 +18,389 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.apache.accumulo</groupId>
-    <artifactId>accumulo-project</artifactId>
-    <version>2.0.0-SNAPSHOT</version>
+    <groupId>org.apache</groupId>
+    <artifactId>apache</artifactId>
+    <version>21</version>
   </parent>
+  <groupId>org.apache.accumulo</groupId>
   <artifactId>accumulo-maven-plugin</artifactId>
+  <version>2.0.0-SNAPSHOT</version>
   <packaging>maven-plugin</packaging>
   <name>Apache Accumulo Maven Plugin</name>
   <description>An Apache Maven plugin for testing software against a test Apache Accumulo instance.</description>
+  <!-- this URL is where the site derived via the maven-site-plugin ends up,
+       not the generic site; currently not used -->
+  <url>https://accumulo.apache.org/accumulo-maven-plugin</url>
+  <!-- this is the year of inception at ASF -->
+  <inceptionYear>2013</inceptionYear>
+  <organization>
+    <name>The Apache Software Foundation</name>
+    <url>https://www.apache.org</url>
+  </organization>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+    </license>
+  </licenses>
+  <mailingLists>
+    <mailingList>
+      <name>User</name>
+      <subscribe>user-subscribe@accumulo.apache.org</subscribe>
+      <unsubscribe>user-unsubscribe@accumulo.apache.org</unsubscribe>
+      <post>user@accumulo.apache.org</post>
+      <archive>https://lists.apache.org/list.html?user@accumulo.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>Dev</name>
+      <subscribe>dev-subscribe@accumulo.apache.org</subscribe>
+      <unsubscribe>dev-unsubscribe@accumulo.apache.org</unsubscribe>
+      <post>dev@accumulo.apache.org</post>
+      <archive>https://lists.apache.org/list.html?dev@accumulo.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>Commits</name>
+      <subscribe>commits-subscribe@accumulo.apache.org</subscribe>
+      <unsubscribe>commits-unsubscribe@accumulo.apache.org</unsubscribe>
+      <archive>https://lists.apache.org/list.html?commits@accumulo.apache.org</archive>
+    </mailingList>
+    <mailingList>
+      <name>Notifications</name>
+      <subscribe>notifications-subscribe@accumulo.apache.org</subscribe>
+      <unsubscribe>notifications-unsubscribe@accumulo.apache.org</unsubscribe>
+      <archive>https://lists.apache.org/list.html?notifications@accumulo.apache.org</archive>
+    </mailingList>
+  </mailingLists>
   <prerequisites>
-    <maven>${maven.plugin-version}</maven>
+    <maven>3.2.5</maven>
   </prerequisites>
+  <scm>
+    <connection>scm:git:https://gitbox.apache.org/repos/asf/accumulo-maven-plugin.git</connection>
+    <developerConnection>scm:git:https://gitbox.apache.org/repos/asf/accumulo-maven-plugin.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>https://gitbox.apache.org/repos/asf?p=accumulo-maven-plugin.git</url>
+  </scm>
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/apache/accumulo-maven-plugin/issues</url>
+  </issueManagement>
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.org/apache/accumulo-maven-plugin</url>
+  </ciManagement>
+  <properties>
+    <accumulo.version>2.0.0-SNAPSHOT</accumulo.version>
+    <eclipseFormatterStyle>contrib/Eclipse-Accumulo-Codestyle.xml</eclipseFormatterStyle>
+    <!-- extra release args for testing -->
+    <extraReleaseArguments />
+    <it.failIfNoSpecifiedTests>false</it.failIfNoSpecifiedTests>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <mavenPluginToolsVersion>3.5.2</mavenPluginToolsVersion>
+    <mavenVersion>3.5.4</mavenVersion>
+    <sourceReleaseAssemblyDescriptor>source-release-tar</sourceReleaseAssemblyDescriptor>
+    <spotbugs.excludeFilterFile>src/main/spotbugs/exclude-filter.xml</spotbugs.excludeFilterFile>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
+      <version>2.6</version>
     </dependency>
     <dependency>
       <groupId>org.apache.accumulo</groupId>
       <artifactId>accumulo-minicluster</artifactId>
+      <version>${accumulo.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-artifact</artifactId>
+      <version>${mavenVersion}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-core</artifactId>
-      <exclusions>
-        <exclusion>
-          <groupId>org.sonatype.sisu</groupId>
-          <artifactId>sisu-inject-bean</artifactId>
-        </exclusion>
-      </exclusions>
+      <version>${mavenVersion}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-model</artifactId>
+      <version>${mavenVersion}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
       <artifactId>maven-plugin-api</artifactId>
+      <version>${mavenVersion}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.maven.plugin-tools</groupId>
       <artifactId>maven-plugin-annotations</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
+      <version>${mavenPluginToolsVersion}</version>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
   <build>
+    <pluginManagement>
+      <plugins>
+        <!-- check for version updates with 'mvn versions:display-plugin-updates' -->
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>versions-maven-plugin</artifactId>
+          <version>2.5</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.8.0</version>
+          <configuration>
+            <optimize>true</optimize>
+            <showDeprecation>true</showDeprecation>
+            <showWarnings>true</showWarnings>
+            <compilerArgs>
+              <arg>-Xlint:all</arg>
+              <arg>-Xlint:-processing</arg>
+              <arg>-Xmaxwarns</arg>
+              <arg>5</arg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-jar-plugin</artifactId>
+          <configuration>
+            <archive>
+              <manifestEntries>
+                <Sealed>true</Sealed>
+                <Implementation-Build>${mvngit.commit.id}</Implementation-Build>
+              </manifestEntries>
+            </archive>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <configuration>
+            <quiet>true</quiet>
+            <javadocVersion>1.8.0</javadocVersion>
+            <additionalJOption>-J-Xmx512m</additionalJOption>
+            <doclint>all,-missing</doclint>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <configuration>
+            <arguments>-P !autoformat ${extraReleaseArguments}</arguments>
+            <goals>clean deploy</goals>
+            <preparationGoals>clean verify</preparationGoals>
+            <tagNameFormat>rel/@{project.artifactId}-@{project.version}</tagNameFormat>
+            <releaseProfiles>apache-release</releaseProfiles>
+            <useReleaseProfile>false</useReleaseProfile>
+            <pushChanges>false</pushChanges>
+            <localCheckout>true</localCheckout>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-site-plugin</artifactId>
+          <configuration>
+            <skipDeploy>true</skipDeploy>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
     <plugins>
+      <plugin>
+        <!-- verify before compile; should be sorted already -->
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <version>2.8.0</version>
+        <configuration>
+          <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
+          <createBackupFile>false</createBackupFile>
+          <lineSeparator>\n</lineSeparator>
+          <expandEmptyElements>false</expandEmptyElements>
+          <nrOfIndentSpace>2</nrOfIndentSpace>
+          <sortDependencies>scope,groupId,artifactId</sortDependencies>
+          <sortProperties>true</sortProperties>
+          <verifyFail>Stop</verifyFail>
+        </configuration>
+        <executions>
+          <execution>
+            <id>verify-sorted-pom</id>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+            <phase>process-resources</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.koraktor</groupId>
+        <artifactId>mavanagaiata</artifactId>
+        <version>0.8.2</version>
+        <configuration>
+          <skipNoGit>true</skipNoGit>
+        </configuration>
+        <executions>
+          <execution>
+            <id>git-commit</id>
+            <goals>
+              <goal>commit</goal>
+            </goals>
+            <phase>validate</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.github.spotbugs</groupId>
+        <artifactId>spotbugs-maven-plugin</artifactId>
+        <version>3.1.6</version>
+        <configuration>
+          <xmlOutput>true</xmlOutput>
+          <effort>Max</effort>
+          <failOnError>true</failOnError>
+          <includeTests>true</includeTests>
+          <maxRank>16</maxRank>
+          <plugins>
+            <plugin>
+              <groupId>com.overstock.findbugs</groupId>
+              <artifactId>library-detectors</artifactId>
+              <version>1.2.0</version>
+            </plugin>
+            <plugin>
+              <groupId>com.h3xstream.findsecbugs</groupId>
+              <artifactId>findsecbugs-plugin</artifactId>
+              <version>1.8.0</version>
+            </plugin>
+          </plugins>
+        </configuration>
+        <executions>
+          <execution>
+            <id>run-spotbugs</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <checkstyleRules>
+            <module name="Checker">
+              <property name="charset" value="UTF-8" />
+              <property name="severity" value="warning" />
+              <!-- Checks for whitespace                               -->
+              <!-- See http://checkstyle.sf.net/config_whitespace.html -->
+              <module name="FileTabCharacter">
+                <property name="eachLine" value="true" />
+              </module>
+              <module name="TreeWalker">
+                <module name="OneTopLevelClass" />
+                <module name="RegexpSinglelineJava">
+                  <property name="format" value="\s+$" />
+                  <property name="message" value="Line has trailing whitespace." />
+                </module>
+                <module name="RegexpSinglelineJava">
+                  <property name="format" value="[@]see\s+[{][@]link" />
+                  <property name="message" value="Javadoc @see does not need @link: pick one or the other." />
+                </module>
+                <module name="RegexpSinglelineJava">
+                  <property name="format" value="jline[.]internal[.]Preconditions" />
+                  <property name="message" value="Please use Guava Preconditions not JLine" />
+                </module>
+                <module name="RegexpSinglelineJava">
+                  <property name="format" value="org[.]apache[.]commons[.]math[.]" />
+                  <property name="message" value="Use commons-math3 (org.apache.commons.math3.*)" />
+                </module>
+                <module name="RegexpSinglelineJava">
+                  <property name="format" value="junit[.]framework[.]TestCase" />
+                  <property name="message" value="Use JUnit4+ @Test annotation instead of TestCase" />
+                </module>
+                <module name="RegexpSinglelineJava">
+                  <property name="format" value="import org[.]junit[.]Assert;" />
+                  <property name="message" value="Use static imports for Assert.* methods for consistency" />
+                </module>
+                <module name="OuterTypeFilename" />
+                <module name="LineLength">
+                  <property name="max" value="100" />
+                  <property name="ignorePattern" value="^[ ]*[*].*@(link|see) |Map.* = new .*Map|org[.]apache[.]accumulo[.]|a href=|http://|https://|ftp://" />
+                </module>
+                <module name="AvoidStarImport" />
+                <module name="UnusedImports">
+                  <property name="processJavadoc" value="true" />
+                </module>
+                <module name="NoLineWrap" />
+                <module name="LeftCurly" />
+                <module name="RightCurly">
+                  <property name="option" value="alone" />
+                  <property name="tokens" value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT, INSTANCE_INIT" />
+                </module>
+                <module name="SeparatorWrap">
+                  <property name="tokens" value="DOT" />
+                  <property name="option" value="nl" />
+                </module>
+                <module name="SeparatorWrap">
+                  <property name="tokens" value="COMMA" />
+                  <property name="option" value="EOL" />
+                </module>
+                <module name="PackageName">
+                  <property name="format" value="^[a-z]+(\.[a-z][a-zA-Z0-9]*)*$" />
+                </module>
+                <module name="MethodTypeParameterName">
+                  <property name="format" value="(^[A-Z][0-9]?)$|([A-Z][a-zA-Z0-9]*[T]$)" />
+                </module>
+                <module name="MethodParamPad" />
+                <module name="OperatorWrap">
+                  <property name="option" value="NL" />
+                  <property name="tokens" value="BAND, BOR, BSR, BXOR, DIV, EQUAL, GE, GT, LAND, LE, LITERAL_INSTANCEOF, LOR, LT, MINUS, MOD, NOT_EQUAL, QUESTION, SL, SR, STAR " />
+                </module>
+                <module name="AnnotationLocation">
+                  <property name="tokens" value="CLASS_DEF, INTERFACE_DEF, ENUM_DEF, METHOD_DEF, CTOR_DEF" />
+                </module>
+                <module name="AnnotationLocation">
+                  <property name="tokens" value="VARIABLE_DEF" />
+                  <property name="allowSamelineMultipleAnnotations" value="true" />
+                </module>
+                <module name="NonEmptyAtclauseDescription" />
+                <module name="JavadocTagContinuationIndentation" />
+                <module name="JavadocMethod">
+                  <property name="allowMissingJavadoc" value="true" />
+                  <property name="allowMissingParamTags" value="true" />
+                  <property name="allowMissingThrowsTags" value="true" />
+                  <property name="allowMissingReturnTag" value="true" />
+                  <property name="allowedAnnotations" value="Override,Test,BeforeClass,AfterClass,Before,After" />
+                  <property name="allowThrowsTagsForSubclasses" value="true" />
+                </module>
+                <module name="SingleLineJavadoc" />
+                <module name="MissingOverrideCheck" />
+                <module name="AnnotationLocation" />
+              </module>
+            </module>
+          </checkstyleRules>
+          <violationSeverity>warning</violationSeverity>
+          <includeTestSourceDirectory>true</includeTestSourceDirectory>
+          <excludes>**/HelpMojo.java</excludes>
+        </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.puppycrawl.tools</groupId>
+            <artifactId>checkstyle</artifactId>
+            <version>8.13</version>
+          </dependency>
+        </dependencies>
+        <executions>
+          <execution>
+            <id>check-style</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -82,37 +411,60 @@
               <goal>analyze-only</goal>
             </goals>
             <configuration>
-              <ignoredUnusedDeclaredDependencies combine.children="append">
-                <unusedDeclaredDependency>junit:junit:jar:4.12</unusedDeclaredDependency>
-              </ignoredUnusedDeclaredDependencies>
+              <failOnWarning>true</failOnWarning>
             </configuration>
           </execution>
         </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
-        <configuration>
-          <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
-        </configuration>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>animal-sniffer-enforcer-rule</artifactId>
+            <version>1.17</version>
+          </dependency>
+        </dependencies>
         <executions>
           <execution>
-            <id>mojo-descriptor</id>
+            <id>enforce-basic-rules</id>
             <goals>
-              <goal>descriptor</goal>
+              <goal>enforce</goal>
             </goals>
+            <phase>validate</phase>
+            <configuration>
+              <rules>
+                <requireJavaVersion>
+                  <version>[${maven.compiler.target},)</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
           </execution>
           <execution>
-            <id>help-goal</id>
+            <id>enforce-java-signatures</id>
             <goals>
-              <goal>helpmojo</goal>
+              <goal>enforce</goal>
             </goals>
+            <phase>process-test-classes</phase>
+            <configuration>
+              <rules>
+                <checkSignatureRule implementation="org.codehaus.mojo.animal_sniffer.enforcer.CheckSignatureRule">
+                  <signature>
+                    <groupId>org.codehaus.mojo.signature</groupId>
+                    <artifactId>java18</artifactId>
+                    <version>1.0</version>
+                  </signature>
+                </checkSignatureRule>
+              </rules>
+            </configuration>
           </execution>
         </executions>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-invoker-plugin</artifactId>
+        <version>3.1.0</version>
         <configuration>
           <cloneClean>true</cloneClean>
           <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
@@ -140,30 +492,133 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>${mavenPluginToolsVersion}</version>
+        <executions>
+          <!-- the help goal runs in addition to the default-descriptor -->
+          <execution>
+            <id>help-goal</id>
+            <goals>
+              <goal>helpmojo</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.rat</groupId>
+        <artifactId>apache-rat-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>check-licenses</id>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.gaul</groupId>
+        <artifactId>modernizer-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <configuration>
+          <javaVersion>${maven.compiler.target}</javaVersion>
+        </configuration>
+        <executions>
+          <execution>
+            <id>modernizer</id>
+            <goals>
+              <goal>modernizer</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-plugin-plugin</artifactId>
+        <version>${mavenPluginToolsVersion}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.0.0</version>
+      </plugin>
+    </plugins>
+  </reporting>
   <profiles>
     <profile>
-      <id>skip-plugin-its-with-skipTests</id>
+      <!-- on by default, but disable with '-P !autoformat' or '-DskipFormat' -->
+      <id>autoformat</id>
       <activation>
         <property>
-          <name>skipTests</name>
+          <name>!skipFormat</name>
         </property>
       </activation>
-      <properties>
-        <invoker.skip>true</invoker.skip>
-      </properties>
-    </profile>
-    <profile>
-      <id>skip-plugin-its-with-skipITs</id>
-      <activation>
-        <property>
-          <name>skipITs</name>
-        </property>
-      </activation>
-      <properties>
-        <invoker.skip>true</invoker.skip>
-      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.github.ekryd.sortpom</groupId>
+            <artifactId>sortpom-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sort-pom</id>
+                <goals>
+                  <goal>sort</goal>
+                </goals>
+                <phase>process-sources</phase>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>net.revelc.code.formatter</groupId>
+            <artifactId>formatter-maven-plugin</artifactId>
+            <version>2.7.5</version>
+            <configuration>
+              <configFile>${eclipseFormatterStyle}</configFile>
+              <compilerCompliance>${maven.compiler.source}</compilerCompliance>
+              <compilerSource>${maven.compiler.source}</compilerSource>
+              <compilerTargetPlatform>${maven.compiler.target}</compilerTargetPlatform>
+              <lineEnding>LF</lineEnding>
+              <overrideConfigCompilerVersion>true</overrideConfigCompilerVersion>
+              <skipJsFormatting>true</skipJsFormatting>
+              <skipHtmlFormatting>true</skipHtmlFormatting>
+              <skipXmlFormatting>true</skipXmlFormatting>
+              <skipJsonFormatting>true</skipJsonFormatting>
+              <skipCssFormatting>true</skipCssFormatting>
+            </configuration>
+            <executions>
+              <execution>
+                <id>format-java-source</id>
+                <goals>
+                  <goal>format</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>net.revelc.code</groupId>
+            <artifactId>impsort-maven-plugin</artifactId>
+            <version>1.2.0</version>
+            <configuration>
+              <removeUnused>true</removeUnused>
+              <groups>java.,javax.,org.,com.</groups>
+            </configuration>
+            <executions>
+              <execution>
+                <id>sort-imports</id>
+                <goals>
+                  <goal>sort</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
     </profile>
   </profiles>
 </project>
