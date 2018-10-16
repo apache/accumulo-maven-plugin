@@ -89,7 +89,7 @@
     <url>https://travis-ci.org/apache/accumulo-maven-plugin</url>
   </ciManagement>
   <properties>
-    <accumulo.version>2.0.0-SNAPSHOT</accumulo.version>
+    <accumulo.version>2.0.0-alpha-1</accumulo.version>
     <eclipseFormatterStyle>contrib/Eclipse-Accumulo-Codestyle.xml</eclipseFormatterStyle>
     <!-- extra release args for testing -->
     <extraReleaseArguments />
@@ -100,14 +100,15 @@
     <mavenVersion>3.5.4</mavenVersion>
     <sourceReleaseAssemblyDescriptor>source-release-tar</sourceReleaseAssemblyDescriptor>
     <spotbugs.excludeFilterFile>src/main/spotbugs/exclude-filter.xml</spotbugs.excludeFilterFile>
-    <spotbugs.version>3.1.6</spotbugs.version>
+    <spotbugs.version>3.1.7</spotbugs.version>
   </properties>
   <dependencies>
     <!-- spotbugs-annotations provides SuppressFBWarnings annotation -->
     <dependency>
       <groupId>com.github.spotbugs</groupId>
       <artifactId>spotbugs-annotations</artifactId>
-      <version>${spotbugs.version}</version>
+      <!-- newer version of annotations available than the spotbugs plugin itself -->
+      <version>3.1.8</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -154,7 +155,7 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>versions-maven-plugin</artifactId>
-          <version>2.5</version>
+          <version>2.7</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -175,6 +176,8 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
+          <!-- newer version than in apache-21.pom -->
+          <version>3.1.0</version>
           <configuration>
             <archive>
               <manifestEntries>
@@ -187,6 +190,8 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
+          <!-- newer version than in apache-21.pom -->
+          <version>3.0.1</version>
           <configuration>
             <quiet>true</quiet>
             <javadocVersion>1.8.0</javadocVersion>
@@ -197,6 +202,8 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
+          <!-- newer version than in apache-21.pom -->
+          <version>2.5.3</version>
           <configuration>
             <arguments>-P !autoformat ${extraReleaseArguments}</arguments>
             <goals>clean deploy</goals>
@@ -211,6 +218,8 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
+          <!-- newer version than in apache-21.pom -->
+          <version>3.7.1</version>
           <configuration>
             <skipDeploy>true</skipDeploy>
           </configuration>
@@ -222,7 +231,7 @@
         <!-- verify before compile; should be sorted already -->
         <groupId>com.github.ekryd.sortpom</groupId>
         <artifactId>sortpom-maven-plugin</artifactId>
-        <version>2.8.0</version>
+        <version>2.10.0</version>
         <configuration>
           <predefinedSortOrder>recommended_2008_06</predefinedSortOrder>
           <createBackupFile>false</createBackupFile>
@@ -246,7 +255,7 @@
       <plugin>
         <groupId>com.github.koraktor</groupId>
         <artifactId>mavanagaiata</artifactId>
-        <version>0.8.2</version>
+        <version>0.9.0</version>
         <configuration>
           <skipNoGit>true</skipNoGit>
         </configuration>
@@ -581,7 +590,7 @@
           <plugin>
             <groupId>net.revelc.code.formatter</groupId>
             <artifactId>formatter-maven-plugin</artifactId>
-            <version>2.7.5</version>
+            <version>2.8.0</version>
             <configuration>
               <configFile>${eclipseFormatterStyle}</configFile>
               <compilerCompliance>${maven.compiler.source}</compilerCompliance>
