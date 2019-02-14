@@ -16,12 +16,10 @@
  */
 package org.apache.accumulo.maven.plugin;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
-import org.apache.accumulo.miniclusterImpl.MiniAccumuloConfigImpl;
+import org.apache.accumulo.minicluster.MiniAccumuloConfig;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Parameter;
@@ -42,17 +40,14 @@ public abstract class AbstractAccumuloMojo extends AbstractMojo {
     return skip;
   }
 
-  void configureMiniClasspath(MiniAccumuloConfigImpl macConfig, String miniClasspath)
-      throws MalformedURLException {
+  void configureMiniClasspath(MiniAccumuloConfig macConfig) throws MalformedURLException {
     ArrayList<String> classpathItems = new ArrayList<>();
-    if (miniClasspath == null && project != null) {
+    if (project != null) {
       classpathItems.add(project.getBuild().getOutputDirectory());
       classpathItems.add(project.getBuild().getTestOutputDirectory());
       for (Artifact artifact : project.getArtifacts()) {
         classpathItems.add(artifact.getFile().toURI().toURL().toString());
       }
-    } else if (miniClasspath != null && !miniClasspath.isEmpty()) {
-      classpathItems.addAll(Arrays.asList(miniClasspath.split(File.pathSeparator)));
     }
 
     // Hack to prevent sisu-guava, a maven 3.0.4 dependency, from effecting normal accumulo
