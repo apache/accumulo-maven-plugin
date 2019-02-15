@@ -60,6 +60,6 @@ public abstract class AbstractAccumuloMojo extends AbstractMojo {
     if (sisuGuava != null)
       classpathItems.remove(sisuGuava);
 
-    macConfig.setClasspathItems(classpathItems.toArray(new String[classpathItems.size()]));
+    macConfig.setClasspath(classpathItems.toArray(new String[classpathItems.size()]));
   }
 }
