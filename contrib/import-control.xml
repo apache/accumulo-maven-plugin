@@ -21,13 +21,8 @@
 <import-control pkg="org.apache.accumulo.maven.plugin" strategyOnMismatch="allowed">
     <!-- allow this package -->
     <allow pkg="org.apache.accumulo.maven.plugin"/>
-    <!-- API packages -->
-    <allow pkg="org.apache.accumulo.core.client"/>
-    <allow pkg="org.apache.accumulo.core.data"/>
-    <allow pkg="org.apache.accumulo.core.security"/>
-    <allow pkg="org.apache.accumulo.core.iterators"/>
+    <!-- allow accumulo public API packages. only packages that are used are included below -->
     <allow pkg="org.apache.accumulo.minicluster"/>
-    <allow pkg="org.apache.accumulo.hadoop.mapreduce"/>
 
     <!-- disallow everything else coming from accumulo -->
     <disallow pkg="org.apache.accumulo"/>
