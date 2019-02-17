@@ -89,7 +89,7 @@
     <url>https://travis-ci.org/apache/accumulo-maven-plugin</url>
   </ciManagement>
   <properties>
-    <accumulo.version>2.0.0-alpha-2</accumulo.version>
+    <accumulo.version>2.0.0-SNAPSHOT</accumulo.version>
     <eclipseFormatterStyle>contrib/Eclipse-Accumulo-Codestyle.xml</eclipseFormatterStyle>
     <!-- extra release args for testing -->
     <extraReleaseArguments />
@@ -395,6 +395,10 @@
                 <module name="SingleLineJavadoc" />
                 <module name="MissingOverrideCheck" />
                 <module name="AnnotationLocation" />
+                <!--check that only Accumulo public APIs are imported-->
+                <module name="ImportControl">
+                  <property name="file" value="contrib/import-control.xml" />
+                </module>
               </module>
             </module>
           </checkstyleRules>

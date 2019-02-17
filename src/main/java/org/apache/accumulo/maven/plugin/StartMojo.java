@@ -23,8 +23,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.accumulo.minicluster.MiniAccumuloCluster;
-import org.apache.accumulo.miniclusterImpl.MiniAccumuloClusterImpl;
-import org.apache.accumulo.miniclusterImpl.MiniAccumuloConfigImpl;
+import org.apache.accumulo.minicluster.MiniAccumuloConfig;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -57,8 +56,7 @@ public class StartMojo extends AbstractAccumuloMojo {
       required = true)
   private int zooKeeperPort;
 
-  static Set<MiniAccumuloClusterImpl> runningClusters = Collections
-      .synchronizedSet(new HashSet<>());
+  static Set<MiniAccumuloCluster> runningClusters = Collections.synchronizedSet(new HashSet<>());
 
   @SuppressFBWarnings(value = "PATH_TRAVERSAL_IN",
       justification = "could restrict outputDirectory to target/ in future")
@@ -79,11 +77,11 @@ public class StartMojo extends AbstractAccumuloMojo {
         FileUtils.forceDelete(subdir);
       if (!subdir.mkdirs() && !subdir.isDirectory())
         throw new MojoExecutionException(subdir + " cannot be created as a directory");
-      MiniAccumuloConfigImpl cfg = new MiniAccumuloConfigImpl(subdir, rootPassword);
+      MiniAccumuloConfig cfg = new MiniAccumuloConfig(subdir, rootPassword);
       cfg.setInstanceName(instanceName);
       cfg.setZooKeeperPort(zooKeeperPort);
-      configureMiniClasspath(cfg, null);
-      MiniAccumuloClusterImpl mac = new MiniAccumuloClusterImpl(cfg);
+      configureMiniClasspath(cfg);
+      MiniAccumuloCluster mac = new MiniAccumuloCluster(cfg);
       getLog().info("Starting MiniAccumuloCluster: " + mac.getInstanceName() + " in "
           + mac.getConfig().getDir());
       mac.start();
@@ -92,7 +90,5 @@ public class StartMojo extends AbstractAccumuloMojo {
       throw new MojoExecutionException(
           "Unable to start " + MiniAccumuloCluster.class.getSimpleName(), e);
     }
-
   }
-
 }
