@@ -70,7 +70,7 @@ public class StartMojo extends AbstractAccumuloMojo {
       throw new MojoExecutionException("instanceName must be only letters and numbers");
     }
 
-    File subdir = new File(new File(outputDirectory, "accumulo-maven-plugin"), instanceName);
+    File subdir = new File(new File(outputDirectory, "accumulo2-maven-plugin"), instanceName);
     try {
       subdir = subdir.getCanonicalFile();
       if (subdir.exists())

@@ -35,7 +35,7 @@ public abstract class AbstractAccumuloMojo extends AbstractMojo {
 
   protected boolean shouldSkip() {
     if (skip) {
-      getLog().info("Skipping execution of accumulo-maven-plugin");
+      getLog().info("Skipping execution of accumulo2-maven-plugin");
     }
     return skip;
   }

@@ -26,13 +26,13 @@ See the [plugin documentation][plugin-docs] for more details.
 
 [accumulo]: https://accumulo.apache.org
 [Maven]: https://maven.apache.org
-[plugin-docs]: https://accumulo.apache.org/accumulo-maven-plugin
+[plugin-docs]: https://accumulo.apache.org/accumulo2-maven-plugin
 [li]: https://img.shields.io/badge/license-ASL-blue.svg
 [ll]: https://www.apache.org/licenses/LICENSE-2.0
-[mi]: https://maven-badges.herokuapp.com/maven-central/org.apache.accumulo/accumulo-maven-plugin/badge.svg
-[ml]: https://maven-badges.herokuapp.com/maven-central/org.apache.accumulo/accumulo-maven-plugin/
-[ji]: https://www.javadoc.io/badge/org.apache.accumulo/accumulo-maven-plugin.svg
-[jl]: https://www.javadoc.io/doc/org.apache.accumulo/accumulo-maven-plugin
+[mi]: https://maven-badges.herokuapp.com/maven-central/org.apache.accumulo/accumulo2-maven-plugin/badge.svg
+[ml]: https://maven-badges.herokuapp.com/maven-central/org.apache.accumulo/accumulo2-maven-plugin/
+[ji]: https://www.javadoc.io/badge/org.apache.accumulo/accumulo2-maven-plugin.svg
+[jl]: https://www.javadoc.io/doc/org.apache.accumulo/accumulo2-maven-plugin
 [ti]: https://travis-ci.org/apache/accumulo-maven-plugin.svg?branch=master
 [tl]: https://travis-ci.org/apache/accumulo-maven-plugin
 
