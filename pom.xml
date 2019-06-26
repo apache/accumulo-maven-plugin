@@ -72,7 +72,7 @@
     </mailingList>
   </mailingLists>
   <prerequisites>
-    <maven>3.2.5</maven>
+    <maven>3.3.9</maven>
   </prerequisites>
   <scm>
     <connection>scm:git:https://gitbox.apache.org/repos/asf/accumulo-maven-plugin.git</connection>
@@ -96,19 +96,18 @@
     <it.failIfNoSpecifiedTests>false</it.failIfNoSpecifiedTests>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <mavenPluginToolsVersion>3.5.2</mavenPluginToolsVersion>
-    <mavenVersion>3.5.4</mavenVersion>
+    <mavenPluginToolsVersion>3.6.0</mavenPluginToolsVersion>
+    <mavenVersion>3.6.1</mavenVersion>
     <sourceReleaseAssemblyDescriptor>source-release-tar</sourceReleaseAssemblyDescriptor>
     <spotbugs.excludeFilterFile>src/main/spotbugs/exclude-filter.xml</spotbugs.excludeFilterFile>
-    <spotbugs.version>3.1.7</spotbugs.version>
+    <spotbugs.version>3.1.12</spotbugs.version>
   </properties>
   <dependencies>
     <!-- spotbugs-annotations provides SuppressFBWarnings annotation -->
     <dependency>
       <groupId>com.github.spotbugs</groupId>
       <artifactId>spotbugs-annotations</artifactId>
-      <!-- newer version of annotations available than the spotbugs plugin itself -->
-      <version>3.1.8</version>
+      <version>${spotbugs.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -160,7 +159,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.8.0</version>
+          <version>3.8.1</version>
           <configuration>
             <optimize>true</optimize>
             <showDeprecation>true</showDeprecation>
@@ -177,7 +176,7 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <!-- newer version than in apache-21.pom -->
-          <version>3.1.0</version>
+          <version>3.1.2</version>
           <configuration>
             <archive>
               <manifestEntries>
@@ -191,7 +190,7 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <!-- newer version than in apache-21.pom -->
-          <version>3.0.1</version>
+          <version>3.1.0</version>
           <configuration>
             <quiet>true</quiet>
             <javadocVersion>1.8.0</javadocVersion>
@@ -255,7 +254,7 @@
       <plugin>
         <groupId>com.github.koraktor</groupId>
         <artifactId>mavanagaiata</artifactId>
-        <version>0.9.0</version>
+        <version>0.9.4</version>
         <configuration>
           <skipNoGit>true</skipNoGit>
         </configuration>
@@ -304,7 +303,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>3.0.0</version>
+        <version>3.1.0</version>
         <configuration>
           <checkstyleRules>
             <module name="Checker">
@@ -410,7 +409,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>8.13</version>
+            <version>8.22</version>
           </dependency>
         </dependencies>
         <executions>
@@ -444,7 +443,7 @@
           <dependency>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>animal-sniffer-enforcer-rule</artifactId>
-            <version>1.17</version>
+            <version>1.18</version>
           </dependency>
         </dependencies>
         <executions>
@@ -540,7 +539,7 @@
       <plugin>
         <groupId>org.gaul</groupId>
         <artifactId>modernizer-maven-plugin</artifactId>
-        <version>1.6.0</version>
+        <version>1.8.0</version>
         <configuration>
           <javaVersion>${maven.compiler.target}</javaVersion>
         </configuration>
@@ -594,7 +593,7 @@
           <plugin>
             <groupId>net.revelc.code.formatter</groupId>
             <artifactId>formatter-maven-plugin</artifactId>
-            <version>2.8.0</version>
+            <version>2.10.0</version>
             <configuration>
               <configFile>${eclipseFormatterStyle}</configFile>
               <compilerCompliance>${maven.compiler.source}</compilerCompliance>
@@ -741,6 +740,15 @@
           </plugins>
         </pluginManagement>
       </build>
+    </profile>
+    <profile>
+      <id>jdk-release-flag</id>
+      <activation>
+        <jdk>[9,)</jdk>
+      </activation>
+      <properties>
+        <maven.compiler.release>8</maven.compiler.release>
+      </properties>
     </profile>
   </profiles>
 </project>
