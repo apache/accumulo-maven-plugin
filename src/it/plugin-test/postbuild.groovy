@@ -14,14 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-File outputDirectory = new File(basedir, "target/accumulo-maven-plugin/plugin-it-instance");
+File outputDirectory = new File(basedir, "target/accumulo2-maven-plugin/plugin-it-instance");
 assert outputDirectory.isDirectory()
 
-File testCreateTable = new File(basedir, "target/accumulo-maven-plugin/plugin-it-instance/testCreateTablePassed");
+File testCreateTable = new File(basedir, "target/accumulo2-maven-plugin/plugin-it-instance/testCreateTablePassed");
 assert testCreateTable.isFile()
 
-File testWriteToTable = new File(basedir, "target/accumulo-maven-plugin/plugin-it-instance/testWriteToTablePassed");
+File testWriteToTable = new File(basedir, "target/accumulo2-maven-plugin/plugin-it-instance/testWriteToTablePassed");
 assert testWriteToTable.isFile()
 
-File testCheckIterator = new File(basedir, "target/accumulo-maven-plugin/plugin-it-instance/testCheckIteratorPassed");
+File testCheckIterator = new File(basedir, "target/accumulo2-maven-plugin/plugin-it-instance/testCheckIteratorPassed");
 assert testCheckIterator.isFile()

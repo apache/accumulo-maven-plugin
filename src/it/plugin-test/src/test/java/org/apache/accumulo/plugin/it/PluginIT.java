@@ -52,7 +52,7 @@ public class PluginIT {
   @BeforeClass
   public static void setUp() throws Exception {
     String instanceName = "plugin-it-instance";
-    props = MiniAccumuloCluster.getClientProperties(new File("target/accumulo-maven-plugin/" + instanceName));
+    props = MiniAccumuloCluster.getClientProperties(new File("target/accumulo2-maven-plugin/" + instanceName));
     client = Accumulo.newClient().from(props).build();
   }
 
@@ -68,7 +68,7 @@ public class PluginIT {
     String tableName = "testCreateTable";
     client.tableOperations().create(tableName);
     assertTrue(client.tableOperations().exists(tableName));
-    assertTrue(new File("target/accumulo-maven-plugin/" + props.getProperty("instance.name") + "/testCreateTablePassed").createNewFile());
+    assertTrue(new File("target/accumulo2-maven-plugin/" + props.getProperty("instance.name") + "/testCreateTablePassed").createNewFile());
   }
 
   @Test
@@ -90,7 +90,7 @@ public class PluginIT {
       assertEquals("V", entry.getValue().toString());
     }
     assertEquals(1, count);
-    assertTrue(new File("target/accumulo-maven-plugin/" + props.getProperty("instance.name") + "/testWriteToTablePassed").createNewFile());
+    assertTrue(new File("target/accumulo2-maven-plugin/" + props.getProperty("instance.name") + "/testWriteToTablePassed").createNewFile());
   }
 
   @Test
@@ -131,7 +131,7 @@ public class PluginIT {
       assertEquals("denied", entry.getKey().getColumnFamily().toString());
     }
     assertEquals(2, count);
-    assertTrue(new File("target/accumulo-maven-plugin/" + props.getProperty("instance.name") + "/testCheckIteratorPassed").createNewFile());
+    assertTrue(new File("target/accumulo2-maven-plugin/" + props.getProperty("instance.name") + "/testCheckIteratorPassed").createNewFile());
   }
 
 }

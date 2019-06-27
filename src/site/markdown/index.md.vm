@@ -17,8 +17,8 @@
 Description
 -----------
 
-  This `accumulo-maven-plugin` allows your Maven project to run a mini,
-  single node instance of Apache Accumulo in order for you to run your
+  This `accumulo2-maven-plugin` allows your Maven project to run a mini,
+  single node instance of Apache Accumulo 2.x in order for you to run your
   project's integration tests against a live version of Accumulo.
 
 Getting Started
