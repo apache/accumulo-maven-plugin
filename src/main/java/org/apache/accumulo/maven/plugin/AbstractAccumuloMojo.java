@@ -30,7 +30,12 @@ public abstract class AbstractAccumuloMojo extends AbstractMojo {
   @Parameter(defaultValue = "${project}", readonly = true)
   private MavenProject project;
 
-  @Parameter(defaultValue = "false", alias = "skip", property = "accumulo.skip", required = true)
+  /**
+   * Instructs this plugin to skip execution.
+   *
+   * @since 1.0.0
+   */
+  @Parameter(defaultValue = "false", alias = "skip", property = "accumulo.skip", required = false)
   private boolean skip;
 
   protected boolean shouldSkip() {

@@ -21,6 +21,14 @@ Description
   single node instance of Apache Accumulo 2.x in order for you to run your
   project's integration tests against a live version of Accumulo.
 
+  This version of the plugin uses
+  `accumulo-minicluster-$context.get("accumulo.version")`. This version [can
+  be overridden similar to overriding checkstyle versions][2] by a later 2.x
+  version. Because Accumulo follows [Semantic Versioning][3], and this plugin
+  limits itself to using only public API, this should work if you meet the
+  dependency requirements of that version (accumulo-minicluster-2.1.0 will
+  require Java 11, for example).
+
 Getting Started
 ---------------
 
@@ -63,4 +71,5 @@ so your project will have access to the running Accumulo instance during the
 `integration-test` phase to perform its integration tests.
 
 [1]: https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
-
+[2]: https://blog.sonatype.com/2008/04/how-to-override-a-plugins-dependency-in-maven/
+[3]: https://semver.org/spec/v2.0.0.html

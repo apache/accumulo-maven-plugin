@@ -40,20 +40,63 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
     requiresDependencyResolution = ResolutionScope.TEST)
 public class StartMojo extends AbstractAccumuloMojo {
 
+  /**
+   * Specifies the output directory in which this plugin will create files for its runtime use. This
+   * plugin will create a client properties file inside a subdirectory named after this plugin and
+   * the specified instance name. This property defaults to your Maven target directory.
+   *
+   * <p>
+   * For example: <code>${outputDirectory}/accumulo2-maven-plugin/instanceName</code>
+   *
+   * <p>
+   * The client properties file can be used to construct an Accumulo client in your test code like:
+   *
+   * <code>
+   * <pre>
+   * String instanceName = "plugin-it-instance";
+   * String outputDir = "target";
+   * File propsFile = new File(outputDir + "/accumulo2-maven-plugin/" + instanceName);
+   * Properties props = MiniAccumuloCluster.getClientProperties(propsFile);
+   * AccumuloClient client = Accumulo.newClient().from(props).build();
+   * </pre>
+   * </code>
+   *
+   * @since 1.0.0
+   */
   @Parameter(defaultValue = "${project.build.directory}", alias = "outputDirectory",
       property = "accumulo.outputDirectory", required = true)
   private File outputDirectory;
 
+  /**
+   * Specifies the instance name the Accumulo instance will use for itself, which clients use to
+   * connect. It is also used to create the working directory for MiniAccumuloCluster, which will
+   * contain the client properties file which clients can use to connect. See
+   * <a href="#outputDirectory">{@link #outputDirectory}</a>.
+   *
+   * @since 1.0.0
+   */
   @Parameter(defaultValue = "testInstance", alias = "instanceName",
       property = "accumulo.instanceName", required = true)
   private String instanceName;
 
+  /**
+   * Specifies the root user's initial password for clients to connect and perform additional
+   * operations.
+   *
+   * @since 1.0.0
+   */
   @Parameter(defaultValue = "secret", alias = "rootPassword", property = "accumulo.rootPassword",
-      required = true)
+      required = false)
   private String rootPassword;
 
+  /**
+   * Specifies the client port on which ZooKeeper listens. If not specified, MiniAccumuloCluster
+   * will select an available port on its own.
+   *
+   * @since 1.0.0
+   */
   @Parameter(defaultValue = "0", alias = "zooKeeperPort", property = "accumulo.zooKeeperPort",
-      required = true)
+      required = false)
   private int zooKeeperPort;
 
   static Set<MiniAccumuloCluster> runningClusters = Collections.synchronizedSet(new HashSet<>());
