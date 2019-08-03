@@ -17,9 +17,9 @@
 
 cd "$(dirname "$0")/.." || exit 1
 scriptname=$(basename "$0")
-export tlpName=Accumulo
-export projName="$tlpName-maven-plugin"
-export projNameLong="Apache Maven Plugin"
+export tlpName=accumulo
+export projName="${tlpName}2-maven-plugin"
+export projNameLong="Accumulo Maven Plugin"
 export stagingRepoPrefix="https://repository.apache.org/content/repositories/orgapache$tlpName"
 export srcQualifier="source-release"
 export relTestingUrl="https://$tlpName.apache.org/release-process/#test-a-$tlpName-release"
@@ -132,8 +132,8 @@ Staging repo: $(green "$stagingRepoPrefix-$stagingrepo")
 Source (official release artifact): $(green "$stagingRepoPrefix-$stagingrepo/org/apache/$tlpName/$projName/$ver/$projName-$ver-$srcQualifier.tar.gz")
 (Append ".sha1", ".md5", or ".asc" to download the signature/hash for a given artifact.)
 
-In addition to the tarballs, and their signatures, the following checksum
-files will be added to the dist/release SVN area after release:
+In addition to the tarball, and its signature, the following checksum
+file will be added to the dist/release SVN area after release:
 $(yellow "$projName-$ver-$srcQualifier.tar.gz.sha512") will contain:
 SHA512 ($(green "$projName-$ver-$srcQualifier.tar.gz")) = $(yellow "$srcSha")
 
