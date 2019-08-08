@@ -25,7 +25,7 @@ Description
   `accumulo-minicluster-$context.get("accumulo.version")`. This version [can
   be overridden similar to overriding checkstyle versions][2] by a later 2.x
   version. For an example of setting Accumulo, Hadoop, and Zookeeper versions
-  when using this plugin checkout [Fluo's pom][4].Because Accumulo follows 
+  when using this plugin checkout [Fluo's pom][4]. Because Accumulo follows 
   [Semantic Versioning][3], and this plugin limits itself to using only public 
   API, this should work if you meet the dependency requirements of that version
   (accumulo-minicluster-2.1.0 will require Java 11, for example).
