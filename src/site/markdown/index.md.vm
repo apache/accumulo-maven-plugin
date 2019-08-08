@@ -28,6 +28,10 @@ Description
   limits itself to using only public API, this should work if you meet the
   dependency requirements of that version (accumulo-minicluster-2.1.0 will
   require Java 11, for example).
+  
+  For an example of setting Accumulo, Hadoop, and Zookeeper versions when using 
+  this plugin checkout [Fluo's pom][4].
+  
 
 Getting Started
 ---------------
@@ -73,3 +77,4 @@ so your project will have access to the running Accumulo instance during the
 [1]: https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
 [2]: https://blog.sonatype.com/2008/04/how-to-override-a-plugins-dependency-in-maven/
 [3]: https://semver.org/spec/v2.0.0.html
+[4]: https://github.com/apache/fluo/blob/2fe8215d66a73ef44b399bd5aeb50a198c71be0f/pom.xml#L260-L299
