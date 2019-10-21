@@ -1,0 +1,12 @@
+github:
+  description: >-
+    Apache Accumulo Maven Plugin for Accumulo2 - An Apache Maven plugin for
+    testing software against a test Apache Accumulo instance.
+  homepage: https://accumulo.apache.org/accumulo2-maven-plugin/
+  labels:
+    - java
+    - accumulo
+    - apache
+    - big-data
+    - maven
+    - maven-plugin
