@@ -33,6 +33,5 @@ See the [plugin documentation][plugin-docs] for more details.
 [ml]: https://maven-badges.herokuapp.com/maven-central/org.apache.accumulo/accumulo2-maven-plugin/
 [ji]: https://www.javadoc.io/badge/org.apache.accumulo/accumulo2-maven-plugin.svg
 [jl]: https://www.javadoc.io/doc/org.apache.accumulo/accumulo2-maven-plugin
-[ti]: https://travis-ci.org/apache/accumulo-maven-plugin.svg?branch=master
-[tl]: https://travis-ci.org/apache/accumulo-maven-plugin
-
+[ti]: https://github.com/apache/accumulo-maven-plugin/workflows/QA/badge.svg
+[tl]: https://github.com/apache/accumulo-maven-plugin/actions
