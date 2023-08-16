@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 #
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -17,19 +18,11 @@
 # under the License.
 #
 
-# https://cwiki.apache.org/confluence/display/INFRA/git+-+.asf.yaml+features
+# Run ShellCheck on all bash scripts
 
-github:
-  description: "Apache Accumulo Maven Plugin for Accumulo 2.x"
-  homepage: https://accumulo.apache.org/accumulo2-maven-plugin
-  labels:
-    - accumulo
-    - big-data
-    - hacktoberfest
-    - maven
-    - maven-plugin
-  features:
-    wiki: false
-    issues: true
-    projects: true
+set -e
 
+mapfile -t filestocheck < <(shfmt -f .)
+
+set -x
+shellcheck -P SCRIPTDIR -x "${filestocheck[@]}"
