@@ -1,3 +1,4 @@
+#! /usr/bin/env bash
 #
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
@@ -17,19 +18,12 @@
 # under the License.
 #
 
-# https://cwiki.apache.org/confluence/display/INFRA/git+-+.asf.yaml+features
+# Install shfmt tool to search for and optionally format bash scripts
+# This is useful for other CI tools to run ShellCheck and shfmt to format
 
-github:
-  description: "Apache Accumulo Maven Plugin for Accumulo 2.x"
-  homepage: https://accumulo.apache.org/accumulo2-maven-plugin
-  labels:
-    - accumulo
-    - big-data
-    - hacktoberfest
-    - maven
-    - maven-plugin
-  features:
-    wiki: false
-    issues: true
-    projects: true
+set -e
+set -x
 
+shfmt_version=3.4.3
+sudo wget "https://github.com/mvdan/sh/releases/download/v${shfmt_version}/shfmt_v${shfmt_version}_linux_amd64" -O /usr/local/bin/shfmt &&
+  sudo chmod +x /usr/local/bin/shfmt

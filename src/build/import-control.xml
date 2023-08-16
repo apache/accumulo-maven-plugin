@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <!--
 
     Licensed to the Apache Software Foundation (ASF) under one
@@ -18,11 +19,17 @@
     under the License.
 
 -->
-<FindBugsFilter>
-  <Match>
-    <!-- dangerous on untrusted files but okay on generated file -->
-    <Class name="org.apache.accumulo.maven.plugin.HelpMojo"/>
-    <Method name="build" params="" returns="org.w3c.dom.Document"/>
-    <Bug code="XXE" pattern="XXE_DOCUMENT"/>
-  </Match>
-</FindBugsFilter>
+<!DOCTYPE import-control PUBLIC
+    "-//Checkstyle//DTD ImportControl Configuration 1.4//EN"
+    "https://checkstyle.org/dtds/import_control_1_4.dtd">
+
+<!-- This checkstyle rule is configured to ensure only use of Accumulo API -->
+<import-control pkg="org.apache.accumulo.maven.plugin" strategyOnMismatch="allowed">
+    <!-- allow this package -->
+    <allow pkg="org.apache.accumulo.maven.plugin"/>
+    <!-- allow accumulo public API packages. only packages that are used are included below -->
+    <allow pkg="org.apache.accumulo.minicluster"/>
+
+    <!-- disallow everything else coming from accumulo -->
+    <disallow pkg="org.apache.accumulo"/>
+</import-control>
