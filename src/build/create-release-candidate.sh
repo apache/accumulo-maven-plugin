@@ -420,7 +420,7 @@ createReleaseCandidate() {
   [[ $numSrc == "1" ]] && srcSha=$(sha512sum target/checkout/**/"$projName-$ver-source-release.tar.gz" | cut -f1 -d" ")
 
   # continue to creating email notification
-  echo "$(red Running)" "$(yellow "$scriptname" --create-email "$ver" "$rc")"
+  echo "$(red Running)" "$(yellow "$scriptname" --email "$ver" "$rc")"
   createEmail "$ver" "$rc" "" "$srcSha"
 }
 
