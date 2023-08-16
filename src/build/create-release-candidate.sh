@@ -20,6 +20,8 @@
 
 cd "$(dirname "$0")/.." || exit 1
 scriptname=$(basename "$0")
+projectroot="$(git rev-parse --show-toplevel)" || exit 1
+cd "$projectroot" || exit 1
 export tlpName=accumulo
 export projName="${tlpName}2-maven-plugin"
 export projNameLong="Accumulo2 Maven Plugin"
