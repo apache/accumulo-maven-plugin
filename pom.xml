@@ -32,8 +32,7 @@
   <packaging>maven-plugin</packaging>
   <name>Apache Accumulo Maven Plugin for Accumulo2</name>
   <description>An Apache Maven plugin for testing software against a test Apache Accumulo instance.</description>
-  <!-- this URL is where the site derived via the maven-site-plugin ends up,
-       not the generic site; currently not used -->
+  <!-- this URL is where the plugin documentation is published and is used by maven-site-plugin -->
   <url>https://accumulo.apache.org/accumulo2-maven-plugin</url>
   <!-- this is the year of inception for this plugin -->
   <inceptionYear>2013</inceptionYear>
@@ -102,8 +101,9 @@
     <maven.compiler.source>11</maven.compiler.source>
     <maven.compiler.target>11</maven.compiler.target>
     <maven.javadoc.failOnWarnings>true</maven.javadoc.failOnWarnings>
+    <maven.site.deploy.skip>true</maven.site.deploy.skip>
     <!-- versions-maven-plugin ignore patterns for snapshots, alpha, beta, milestones, and release candidates -->
-    <maven.version.ignore>.+-SNAPSHOT,(?i).*(alpha|beta)[0-9]*,(?i).*[.-](m|rc)[0-9]+</maven.version.ignore>
+    <maven.version.ignore>.+-SNAPSHOT,(?i).*(alpha|beta)[0-9.-]*,(?i).*[.-](m|rc)[0-9]+</maven.version.ignore>
     <mavenVersion>3.9.4</mavenVersion>
     <minimalJavaBuildVersion>11</minimalJavaBuildVersion>
     <minimalMavenBuildVersion>3.6.0</minimalMavenBuildVersion>
@@ -114,7 +114,7 @@
     <spotbugs.excludeFilterFile>src/main/spotbugs/exclude-filter.xml</spotbugs.excludeFilterFile>
     <!-- dependency and plugin versions managed with properties -->
     <version.accumulo>2.1.1</version.accumulo>
-    <version.maven-fluido-skin>2.0.0-M6</version.maven-fluido-skin>
+    <version.maven-fluido-skin>1.12.0</version.maven-fluido-skin>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -124,6 +124,12 @@
         <version>${version.accumulo}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <!-- Fluido is listed here for version update checking only -->
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>${version.maven-fluido-skin}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -249,7 +255,7 @@
         <plugin>
           <groupId>com.github.ekryd.sortpom</groupId>
           <artifactId>sortpom-maven-plugin</artifactId>
-          <version>3.2.1</version>
+          <version>3.3.0</version>
           <configuration>
             <createBackupFile>false</createBackupFile>
             <expandEmptyElements>false</expandEmptyElements>
@@ -323,22 +329,6 @@
             <pushChanges>false</pushChanges>
             <localCheckout>true</localCheckout>
           </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-site-plugin</artifactId>
-          <version>3.8.2</version>
-          <configuration>
-            <skipDeploy>true</skipDeploy>
-          </configuration>
-          <dependencies>
-            <!-- Fluido is listed here for version update checking only -->
-            <dependency>
-              <groupId>org.apache.maven.skins</groupId>
-              <artifactId>maven-fluido-skin</artifactId>
-              <version>${version.maven-fluido-skin}</version>
-            </dependency>
-          </dependencies>
         </plugin>
         <plugin>
           <groupId>net.revelc.code.formatter</groupId>
@@ -534,7 +524,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>10.12.1</version>
+            <version>10.12.2</version>
           </dependency>
         </dependencies>
         <executions>
@@ -636,7 +626,7 @@
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-plugin-plugin</artifactId>
+        <artifactId>maven-plugin-report-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
