@@ -29,9 +29,9 @@ github:
     - maven
     - maven-plugin
   features:
-    wiki: false
-    issues: true
-    projects: true
+    wiki: true
+    issues: false
+    projects: false
 
   rulesets:
     - name: "Default Branch Protection"
@@ -43,6 +43,6 @@ github:
           - "rel/*"
         excludes: []
       bypass_teams:
-        - root
-      restrict_deletion: true
-      restrict_force_push: true
+        - root disable
+      restrict_deletion: false
+      restrict_force_push: false
